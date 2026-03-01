@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Cpu } from 'lucide-react';
 import { CryptoText } from '../../components/CryptoText';
 import { useWeb3 } from '../../hooks/useWeb3';
-import { getCoinForInput, validateTwitterUsername, type CoinConfig, coins } from '../../utils/coinConfig';
+import { validateTwitterUsername, type CoinConfig, coins } from '../../utils/coinConfig';
 import { generateFailToken, abbreviateToken } from '../../utils/tokenGenerator';
+import { generateTokenMetadata } from '../../utils/apiService';
 import * as S from './home.css';
 
 type Status = 'idle' | 'loading' | 'result';
@@ -17,7 +18,7 @@ const Home = () => {
   const [resultToken, setResultToken] = useState<string | null>(null);
   const { address, isConnected, connectWallet, formatAddress } = useWeb3();
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!inputValue.trim()) {
       alert('Lütfen bir Tweet linki veya username girin!');
       return;
@@ -36,13 +37,28 @@ const Home = () => {
     setResultToken(null);
     setStatus('loading');
     
-    // Input'a göre coin seç
-    const selectedCoin = getCoinForInput(inputValue);
-    
-    setTimeout(() => {
-      setResultConfig(selectedCoin);
+    try {
+      // API'den token metadata al
+      const username = inputValue.replace('@', '').trim();
+      const tokenData = await generateTokenMetadata(username);
+      
+      // Dinamik olarak CoinConfig oluştur
+      const dynamicConfig: CoinConfig = {
+        name: tokenData.name,  // Topic değeri token adı
+        image: tokenData.image,  // API'den gelen image
+        color: '#836EF9',  // Varsayılan mor renk
+      };
+      
+      setResultConfig(dynamicConfig);
       setStatus('result');
-    }, 4000);
+    } catch (error) {
+      console.error('API Error:', error);
+      // Hata durumunda FAIL göster
+      const failToken = generateFailToken();
+      setResultConfig(coins.fail);
+      setResultToken(failToken);
+      setStatus('result');
+    }
   };
 
   const handleConnectWallet = async () => {
