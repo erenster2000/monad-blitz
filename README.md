@@ -92,7 +92,7 @@ Returns token metadata (topic, image, description) as a response.
 
 ## 📄 License
 
-MIT License
+This project is licensed under the MIT License - a permissive open-source license that allows for reuse with minimal restrictions. You are free to use, modify, and distribute this software for both commercial and non-commercial purposes.
 
 ---
 
