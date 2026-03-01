@@ -1,73 +1,99 @@
-# React + TypeScript + Vite
+# Monad Blitz ⚡
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Web3 application that generates dynamic token metadata through Twitter analysis. It analyzes users' Twitter accounts and creates unique token images and names based on tweet content.
 
-Currently, two official plugins are available:
+![Monad Network](https://img.shields.io/badge/Monad-Network-836EF9?style=for-the-badge)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+- **Twitter Analysis**: Analyze Twitter accounts by entering a username
+- **AI-Powered Token Generation**: Detects the dominant topic from tweet content
+- **Dynamic Visuals**: Unique token images for each analysis
+- **Web3 Integration**: Wallet connection with MetaMask
+- **Smooth Animations**: Fluid transitions and effects with Motion
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Technologies
 
-## Expanding the ESLint configuration
+- **Frontend**: React 19, TypeScript
+- **Styling**: Vanilla Extract CSS
+- **Animation**: Motion (Framer Motion)
+- **Web3**: Ethers.js, Web3Modal
+- **Build Tool**: Vite 7
+- **Icons**: Lucide React
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📦 Installation
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```bash
+# Install dependencies
+yarn install
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+# Start development server
+yarn dev
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Production build
+yarn build
+
+# Build preview
+yarn preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🔧 Requirements
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Node.js 18+
+- Yarn or npm
+- MetaMask (for wallet connection)
+- Backend API (localhost:3001)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📁 Project Structure
+
 ```
+src/
+├── components/       # Reusable components
+│   └── CryptoText/   # Animated text effect
+├── hooks/            # Custom React hooks
+│   └── useWeb3.ts    # Web3 wallet management
+├── pages/            # Page components
+│   └── Home/         # Home page
+├── styles/           # Global styles and theme
+├── utils/            # Utility functions
+│   ├── apiService.ts # Backend API service
+│   ├── coinConfig.ts # Token configurations
+│   └── tokenGenerator.ts
+└── Router.tsx        # Application routing
+```
+
+## 🌐 API Integration
+
+For backend, check:
+https://github.com/erenster2000/monad-backend1
+
+The application connects to a backend API running at `http://localhost:3001`:
+
+```bash
+POST /api/generate
+Content-Type: application/json
+
+{
+  "twitterUsername": "username"
+}
+```
+
+Returns token metadata (topic, image, description) as a response.
+
+## 🎨 Usage
+
+1. Connect your MetaMask wallet
+2. Enter a Twitter username
+3. Click the "Analyze" button
+4. View your generated token
+
+## 📄 License
+
+MIT License
+
+---
+
+Developed for **Monad Blitz Hackathon 2026** 🏆

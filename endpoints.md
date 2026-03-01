@@ -1,21 +1,21 @@
 # Monad Hackathon Backend API
 
-Bu doküman, Monad Hackathon backend servisinin mevcut API endpoint'lerini ve nasıl kullanılacağını açıklar.
+This document describes the available API endpoints of the Monad Hackathon backend service and how to use them.
 
 ---
 
-## 1. Sağlık Kontrolü (Health Check)
+## 1. Health Check
 
-Sunucunun çalışır durumda olup olmadığını kontrol etmek için kullanılır.
+Used to check if the server is running.
 
 -   **Method:** `GET`
 -   **Path:** `/`
 
-### İstek
+### Request
 
-Herhangi bir parametre veya gövde (body) gerektirmez.
+Does not require any parameters or body.
 
-### Başarılı Cevap
+### Successful Response
 
 -   **Status Code:** `200 OK`
 -   **Body:**
@@ -23,7 +23,7 @@ Herhangi bir parametre veya gövde (body) gerektirmez.
     Monad Hackathon Backend is Running! 🚀
     ```
 
-### Örnek `curl` İsteği
+### Example `curl` Request
 
 ```bash
 curl http://localhost:3001/
@@ -31,14 +31,14 @@ curl http://localhost:3001/
 
 ---
 
-## 2. Token Metadata Üretimi
+## 2. Token Metadata Generation
 
-Bu, servisin ana endpoint'idir. Belirtilen bir Twitter kullanıcısının son tweet'lerini analiz eder, baskın bir konu bulur, ilgili bir resim oluşturur ve sonuç olarak token metadata'sını içeren bir JSON nesnesi döndürür.
+This is the main endpoint of the service. It analyzes the latest tweets of a specified Twitter user, finds a dominant topic, generates a relevant image, and returns a JSON object containing the token metadata.
 
 -   **Method:** `POST`
 -   **Path:** `/api/generate`
 
-### İstek
+### Request
 
 -   **Headers:**
     -   `Content-Type: application/json`
@@ -50,35 +50,35 @@ Bu, servisin ana endpoint'idir. Belirtilen bir Twitter kullanıcısının son tw
     }
     ```
 
-    -   `twitterUsername` (zorunlu): Analiz edilecek Twitter kullanıcı adı (başına '@' koymadan).
+    -   `twitterUsername` (required): The Twitter username to analyze (without the '@' prefix).
 
-### Başarılı Cevap
+### Successful Response
 
 -   **Status Code:** `200 OK`
 -   **Body:**
 
     ```json
     {
-        "name": "Monad Token for <kullanici_adi>",
-        "description": "A unique token generated based on the analysis of the latest tweets from @<kullanici_adi>. The central theme is: <konu>.",
-        "image": "https://via.placeholder.com/500x500.png?text=<konu>",
+        "name": "Monad Token for <username>",
+        "description": "A unique token generated based on the analysis of the latest tweets from @<username>. The central theme is: <topic>.",
+        "image": "https://via.placeholder.com/500x500.png?text=<topic>",
         "attributes": [
             {
                 "trait_type": "Topic",
-                "value": "<konu>"
+                "value": "<topic>"
             },
             {
                 "trait_type": "Source Account",
-                "value": "@<kullanici_adi>"
+                "value": "@<username>"
             }
         ]
     }
     ```
 
-### Hata Cevapları
+### Error Responses
 
 -   **Status Code:** `400 Bad Request`
-    -   `twitterUsername` parametresi gönderilmediğinde.
+    -   When the `twitterUsername` parameter is not provided.
     ```json
     {
         "error": "Twitter username is required."
@@ -86,7 +86,7 @@ Bu, servisin ana endpoint'idir. Belirtilen bir Twitter kullanıcısının son tw
     ```
 
 -   **Status Code:** `404 Not Found`
-    -   Kullanıcı için hiç tweet bulunamadığında veya hesap gizli olduğunda.
+    -   When no tweets are found for the user or the account is private.
     ```json
     {
         "error": "No tweets found for this user or account is private."
@@ -94,14 +94,14 @@ Bu, servisin ana endpoint'idir. Belirtilen bir Twitter kullanıcısının son tw
     ```
 
 -   **Status Code:** `500 Internal Server Error`
-    -   Veri çekme, analiz veya resim oluşturma sırasında beklenmedik bir sunucu hatası oluştuğunda.
+    -   When an unexpected server error occurs during data fetching, analysis, or image generation.
     ```json
     {
         "error": "Failed to generate token metadata."
     }
     ```
 
-### Örnek `curl` İsteği
+### Example `curl` Request
 
 ```bash
 curl -X POST http://localhost:3001/api/generate \
