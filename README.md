@@ -1,4 +1,4 @@
-# Monad Blitz ⚡
+# Xcoin ⚡
 
 A Web3 application that generates dynamic token metadata through Twitter analysis. It analyzes users' Twitter accounts and creates unique token images and names based on tweet content.
 
